@@ -7,12 +7,21 @@
 
 import SwiftUI
 
-struct contacto_agenda: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-    }
+struct ContactoAgenda: Identifiable {
+    var nombre: String
+    var telefono: String
+    var id: String {nombre}
 }
 
-#Preview {
-    contacto_agenda()
-}
+/*
+ var nombre = "Pepito Veraz"
+ 
+ var _nombre: String
+ 
+ var nombre: set {
+ let nombre_validado = filtrar_palabras(value)
+ _nombre = nombre_validado
+ } get {
+ return _nombre.split(" ")[0]
+ }
+ */
