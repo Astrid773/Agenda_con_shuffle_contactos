@@ -6,23 +6,11 @@
 //
 import SwiftUI
 
-let contactos = [
-    ContactoAgenda(nombre: "Juan", telefono: "12345"),
-    ContactoAgenda(nombre: "Juana", telefono: "12345"),
-    ContactoAgenda(nombre: "Juanita", telefono: "12345"),
-    ContactoAgenda(nombre: "Juanguas", telefono: "12345"),
-    ContactoAgenda(nombre: "Juanito", telefono: "12345"),
-    ContactoAgenda(nombre: "Juances", telefono: "12345"),
-    ContactoAgenda(nombre: "Juanlim", telefono: "12345"),
-    ContactoAgenda(nombre: "Juanes", telefono: "12345"),
-    ContactoAgenda(nombre: "Juansi", telefono: "12345"),
-    ContactoAgenda(nombre: "Juanmi", telefono: "12345"),
-    ContactoAgenda(nombre: "Juanmi", telefono: "12345"),
-    ContactoAgenda(nombre: "Juanmi", telefono: "12345"),
-    ContactoAgenda(nombre: "Juanmi", telefono: "12345"),
-    ContactoAgenda(nombre: "Juanmi", telefono: "12345"),
-    ContactoAgenda(nombre: "Juanmi", telefono: "12345"),
-]
+enum PantallasDisponibles: String, Identifiable {
+    case pantalla_agregar, pantalla_aleatorio
+    
+    var id: String { rawValue }
+}
 
 struct PantallaAgenda: View {
     var largo_de_pantalla = UIScreen.main.bounds.width
@@ -35,15 +23,9 @@ struct PantallaAgenda: View {
         ContactoAgenda(nombre: "Juanmi", telefono: "12345"),
         ContactoAgenda(nombre: "Juanmi", telefono: "12345"),
         ContactoAgenda(nombre: "Juanmi", telefono: "12345"),
-        ContactoAgenda(nombre: "Juanmi", telefono: "12345"),
-        ContactoAgenda(nombre: "Juanmi", telefono: "12345"),
-        ContactoAgenda(nombre: "Juanmi", telefono: "12345"),
-        ContactoAgenda(nombre: "Juanmi", telefono: "12345"),
-        ContactoAgenda(nombre: "Juanmi", telefono: "12345"),
-        ContactoAgenda(nombre: "Juanmi", telefono: "12345"),
-        ContactoAgenda(nombre: "Juanmi", telefono: "12345"),
-        ContactoAgenda(nombre: "Juanmi", telefono: "12345"),
     ]
+    
+    @State var pantalla_a_mostrar: PantallasDisponibles?
     
     var body: some View {
         ScrollView {
@@ -55,9 +37,13 @@ struct PantallaAgenda: View {
             }
             .frame(alignment: Alignment.center)
             .padding(10)
-            .background(Color.white)
         }
-        .background(Color.black)
+        .background(
+            Image("Fondo2")
+                .resizable(resizingMode: .stretch)
+                .opacity(0.75)
+            )
+        
     
         HStack(alignment: VerticalAlignment.center, spacing: 25){
             
@@ -65,18 +51,18 @@ struct PantallaAgenda: View {
                 Circle()
                     .frame(width: 100)
                     .tint(Color.red)
-                    .foregroundColor(Color.cyan)
-                
-                Rectangle()
+                    .background(LinearGradient(gradient: Gradient(colors: [.indigo, .cyan]), startPoint: .leading, endPoint: .trailing))
+                Circle()
                     .frame(width: 65, height:65)
-                    .foregroundColor(Color.cyan)
+                    .background(LinearGradient(gradient: Gradient(colors: [.indigo, .cyan]), startPoint: .leading, endPoint: .trailing))
                 Image(systemName: "plus")
                     .background(Color.cyan)
+                    .fontWeight(.heavy)
             }
             .padding(15)
             .onTapGesture {
                 print("Falta implementar la seccion de agregar contacto")
-                mostrar_pantalla_agregar_contacto.toggle()
+            pantalla_a_mostrar = PantallasDisponibles.pantalla_agregar
             }
             
             Spacer()
@@ -85,31 +71,42 @@ struct PantallaAgenda: View {
                 Circle()
                     .frame(width: 100)
                     .tint(Color.red)
-                    .foregroundColor(Color.cyan)
+                    .background(LinearGradient(gradient: Gradient(colors: [.cyan, .indigo]), startPoint: .leading, endPoint: .trailing))
                 
                 Circle()
                     .frame(width: 65, height:65)
-                    .foregroundColor(Color.cyan)
+                    .background(LinearGradient(gradient: Gradient(colors: [.cyan, .indigo]), startPoint: .leading, endPoint: .trailing))
                 Image(systemName: "shuffle")
                     .background(Color.cyan)
+                    .fontWeight(.heavy)
             }
             .padding(15)
             .onTapGesture {
                 print("Lanzar un intenet pata iniciar la llamada")
+                pantalla_a_mostrar = PantallasDisponibles.pantalla_aleatorio
             }
-        }.background(Color.indigo)
+        }.background(Color.black) /**AQUI!!!**/
             .sheet(isPresented: $mostrar_pantalla_agregar_contacto){
-                PantallaAgregarContacto(
-                    boton_salir: {
-                        mostrar_pantalla_agregar_contacto.toggle()
-                    },
-                    boton_agregar: {nombre, numero in
-                        let contacto_nuevo = ContactoAgenda(nombre: nombre, telefono: numero)
-                        contactos_actuales.append(contacto_nuevo)
-                        mostrar_pantalla_agregar_contacto.toggle()
-                    }
-                )
+                
         }
+            .sheet(item: $pantalla_a_mostrar) { pantalla in
+                switch(pantalla) {
+                case .pantalla_agregar:
+                    PantallaAgregarContacto(
+                        boton_salir: {
+                            pantalla_a_mostrar = PantallasDisponibles.pantalla_aleatorio
+                        },
+                        boton_agregar: {nombre, numero in
+                            let contacto_nuevo = ContactoAgenda(nombre: nombre, telefono: numero)
+                            contactos_actuales.append(contacto_nuevo)
+                            pantalla_a_mostrar = nil
+                        }
+                    )
+                case .pantalla_aleatorio:
+                    Text("Adios mundo")
+                }
+        }
+        
     }
 }
 

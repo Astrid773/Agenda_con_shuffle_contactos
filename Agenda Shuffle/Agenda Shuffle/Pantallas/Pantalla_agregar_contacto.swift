@@ -10,6 +10,7 @@ import SwiftUI
 struct PantallaAgregarContacto: View {
     @State private var nombre: String = ""
     @State private var numero_telefonico: String = ""
+    @State private var imagen_seleccionada: String = "Imagen"
     
     var boton_salir: () -> Void = {
         print("PARECE QUE TE HAS EQUIVOCADO")
@@ -23,7 +24,7 @@ struct PantallaAgregarContacto: View {
         ZStack {
             Rectangle()
                 .frame(maxWidth: .infinity, maxHeight: 75)
-                .foregroundColor(Color.cyan)
+                .foregroundColor(Color.color2)
             TextField("Place holder", text: $nombre)
                 .padding(10)
         }
@@ -31,7 +32,7 @@ struct PantallaAgregarContacto: View {
         Text("Colocar el campo del numero telefonico")
         TextField("Place holder", text: $numero_telefonico)
             .frame(height: 35)
-            .padding(10)
+            .padding(20)
         
         HStack{
             //Este icono dx para agregar un contacto
@@ -43,12 +44,19 @@ struct PantallaAgregarContacto: View {
             Spacer()
             //Este es para salir
             Icono(tamanio: 65, ruta_icono: "return")
-                .background(nombre == "" ? Color.red: Color.indigo)
+                .background(nombre == "" ? Color.pink: Color.indigo)
                 .onTapGesture {
                     boton_salir()
                 }
         }
-        .background(Color.cyan)
+        .background(LinearGradient(gradient: Gradient(colors: [.color2, .color]), startPoint: .top, endPoint: .bottom))
+        
+        HStack{
+            Image("imagen")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 75)
+        }
     }
 }
 
