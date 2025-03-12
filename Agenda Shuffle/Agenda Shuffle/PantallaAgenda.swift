@@ -28,35 +28,41 @@ struct PantallaAgenda: View {
     @State var pantalla_a_mostrar: PantallasDisponibles?
     
     var body: some View {
-        ScrollView {
-            VStack(spacing: 10) {
-                ForEach(contactos_actuales) { contacto in
-                    //Text("\(contacto.nombre)")
-                    ContactoPrevista(contacto_a_mostrar: contacto, al_pulsar: {print("Te envio saludos \(contacto.nombre) desde la pantalla de agenda")})
+        NavigationStack{
+            ScrollView {
+                VStack(spacing: 10) {
+                    ForEach(contactos_actuales) { contacto in
+                        NavigationLink{
+                            Text("Hola mundo")
+                        } label: {
+                            ContactoPrevista(contacto_a_mostrar: contacto, al_pulsar: {print("Te envio saludos \(contacto.nombre) desde la pantalla de agenda")})
+                        }
+                    }
                 }
+                .frame(alignment: Alignment.center)
+                .padding(10)
             }
-            .frame(alignment: Alignment.center)
-            .padding(10)
-        }
-        .background(
-            Image("Fondo2")
-                .resizable(resizingMode: .stretch)
-                .opacity(0.75)
+            .background(
+                Image("Fondo2")
+                    .resizable(resizingMode: .stretch)
+                    .opacity(0.75)
             )
+        }
         
     
         HStack(alignment: VerticalAlignment.center, spacing: 25){
             
             ZStack{
                 Circle()
+                    .fill(LinearGradient(gradient: Gradient(colors: [.color, .color3]), startPoint: .leading, endPoint: .trailing))
                     .frame(width: 100)
-                    .tint(Color.red)
-                    .background(LinearGradient(gradient: Gradient(colors: [.indigo, .cyan]), startPoint: .leading, endPoint: .trailing))
                 Circle()
                     .frame(width: 65, height:65)
-                    .background(LinearGradient(gradient: Gradient(colors: [.indigo, .cyan]), startPoint: .leading, endPoint: .trailing))
                 Image(systemName: "plus")
-                    .background(Color.cyan)
+                    .resizable()
+                    .foregroundStyle(Color.color2)
+                    .scaledToFit()
+                    .frame(width: 30)
                     .fontWeight(.heavy)
             }
             .padding(15)
@@ -69,15 +75,15 @@ struct PantallaAgenda: View {
             
             ZStack{
                 Circle()
+                    .fill(LinearGradient(gradient: Gradient(colors: [.color, .color3]), startPoint: .leading, endPoint: .trailing))
                     .frame(width: 100)
-                    .tint(Color.red)
-                    .background(LinearGradient(gradient: Gradient(colors: [.cyan, .indigo]), startPoint: .leading, endPoint: .trailing))
-                
                 Circle()
                     .frame(width: 65, height:65)
-                    .background(LinearGradient(gradient: Gradient(colors: [.cyan, .indigo]), startPoint: .leading, endPoint: .trailing))
                 Image(systemName: "shuffle")
-                    .background(Color.cyan)
+                    .resizable()
+                    .foregroundStyle(Color.color2)
+                    .scaledToFit()
+                    .frame(width: 30)
                     .fontWeight(.heavy)
             }
             .padding(15)

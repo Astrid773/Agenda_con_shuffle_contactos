@@ -15,7 +15,7 @@ struct pantalla_del_ganador: View {
     var body: some View {
         ZStack{
             Circle()
-                .foregroundColor(Color.indigo)
+                .fill(LinearGradient(gradient: Gradient(colors: [.color2, .color]), startPoint: .top, endPoint: .bottom))
                 .frame(width: 250)
             HStack{
                 Image(systemName: "plus")
