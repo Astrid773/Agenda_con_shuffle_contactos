@@ -33,7 +33,7 @@ struct PantallaAgenda: View {
                 VStack(spacing: 10) {
                     ForEach(contactos_actuales) { contacto in
                         NavigationLink{
-                            Text("Hola mundo")
+                            Link("Visit Apple", destination: URL(string: "https://www.apple.com")!)
                         } label: {
                             ContactoPrevista(contacto_a_mostrar: contacto, al_pulsar: {print("Te envio saludos \(contacto.nombre) desde la pantalla de agenda")})
                         }
@@ -100,7 +100,7 @@ struct PantallaAgenda: View {
                 case .pantalla_agregar:
                     PantallaAgregarContacto(
                         boton_salir: {
-                            pantalla_a_mostrar = PantallasDisponibles.pantalla_aleatorio
+                            pantalla_a_mostrar = nil
                         },
                         boton_agregar: {nombre, numero in
                             let contacto_nuevo = ContactoAgenda(nombre: nombre, telefono: numero)
@@ -109,7 +109,7 @@ struct PantallaAgenda: View {
                         }
                     )
                 case .pantalla_aleatorio:
-                    Text("Adios mundo")
+                    pantalla_del_ganador(contacto_a_molestar: contactos_actuales[0])
                 }
         }
         

@@ -25,8 +25,7 @@ struct ContactoPrevista: View {
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 75, alignment: .center)
                     .clipShape(RoundedRectangle(cornerSize: esquiena_redondeadas))
-                    .background(LinearGradient(gradient: Gradient(colors: [.black, .black]), startPoint: .leading, endPoint: .trailing))
-            } .background(Color.white)
+            }
             
             Spacer()
             
@@ -37,7 +36,6 @@ struct ContactoPrevista: View {
                     .foregroundStyle(.white)
 
             }
-            .background(LinearGradient(gradient: Gradient(colors: [.black, .black]), startPoint: .leading, endPoint: .trailing))
             .frame(maxWidth: .infinity, alignment: .leading)
         
         Spacer()
